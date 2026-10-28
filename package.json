@@ -1,0 +1,25 @@
+{
+  "name": "job-buddy",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "bun@1.4.0",
+  "workspaces": [
+    "packages/client",
+    "packages/ui",
+    "packages/desktop",
+    "packages/web"
+  ],
+  "scripts": {
+    "build": "bun --workspaces --if-present run build",
+    "dev:desktop": "bun --filter @job-buddy/desktop dev",
+    "dev:web": "bun --filter @job-buddy/web dev",
+    "typecheck": "bun --workspaces --if-present run typecheck"
+  },
+  "engines": {
+    "bun": ">=1.4.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.2"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node", "vite/client"],
+    "paths": {
+      "@/*": ["../ui/src/*"],
+      "@job-buddy/client": ["../client/src/index.ts"],
+      "@job-buddy/ui": ["../ui/src/index.ts"]
+    }
+  },
+  "include": ["src", "vite.config.ts"]
+}

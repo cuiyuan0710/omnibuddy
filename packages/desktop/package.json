@@ -1,0 +1,33 @@
+{
+  "name": "@job-buddy/desktop",
+  "version": "0.1.0",
+  "productName": "Job Buddy",
+  "private": true,
+  "type": "module",
+  "main": "./dist/main/index.cjs",
+  "scripts": {
+    "dev": "bun run build && electron .",
+    "build": "bun run build:main && bun run build:preload && bun run build:renderer",
+    "build:main": "bun build ./src/main/index.ts --target=node --format=cjs --external electron --outfile ./dist/main/index.cjs",
+    "build:preload": "bun build ./src/preload/index.ts --target=node --format=cjs --external electron --outfile ./dist/preload/index.cjs",
+    "build:renderer": "vite build",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@job-buddy/client": "workspace:*",
+    "@job-buddy/ui": "workspace:*",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.2.2",
+    "@types/node": "^22.18.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "electron": "^41.0.3",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^6.0.2",
+    "vite": "^8.0.2"
+  }
+}
