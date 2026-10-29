@@ -5,8 +5,13 @@
  */
 export const appConfig = {
   displayName: "OmniBuddy",
-  version: "0.1.0",
+  version: "0.1.1",
   appId: "com.omnibuddy.desktop",
+  homepage: "https://github.com/cuiyuan0710/omnibuddy",
+  maintainer: {
+    name: "OmniBuddy contributors",
+    email: "cuiyuan0710@163.com",
+  },
   github: {
     owner: "cuiyuan0710",
     repo: "omnibuddy",

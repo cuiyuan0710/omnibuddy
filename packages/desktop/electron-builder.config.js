@@ -66,6 +66,7 @@ export default {
   linux: {
     icon: resolve(desktopRoot, "assets", "job-buddy-logo.png"),
     executableName: "omnibuddy",
+    maintainer: `${appConfig.maintainer.name} <${appConfig.maintainer.email}>`,
     category: "Development",
     synopsis: "OmniBuddy desktop app",
     description: "OmniBuddy desktop application.",
