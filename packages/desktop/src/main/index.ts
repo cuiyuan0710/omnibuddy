@@ -9,6 +9,7 @@ import { observeWindowState, registerWindowControlHandlers, registerWindowShortc
 import { resolveWindowChromeOptions } from "./window-chrome";
 import { registerProjectHandlers } from "./project-handlers";
 import { APP_INFO_CHANNEL } from "../shared/ipc.js";
+import { isAppUpdateSupported, registerUpdateHandlers, startUpdateChecks } from "./updater.js";
 
 /** Resolve assets in both the source checkout and a packaged Electron app. */
 function resolveDesktopAsset(...segments: string[]): string {
@@ -23,7 +24,8 @@ function resolveDesktopAsset(...segments: string[]): string {
 function registerAppInfoHandler(): void {
   ipcMain.handle(APP_INFO_CHANNEL, (): AppInfo => ({
     name: app.getName(),
-    version: app.getVersion(),
+    version: appConfig.version,
+    updateSupported: isAppUpdateSupported(),
     platform: process.platform,
   }));
 }
@@ -73,7 +75,9 @@ void app.whenReady().then(() => {
 }).then((projectDirectory) => {
   registerProjectHandlers(join(projectDirectory, "projects.json"));
   registerWindowControlHandlers({ allowDevTools: !app.isPackaged });
+  registerUpdateHandlers();
   createMainWindow();
+  startUpdateChecks();
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) {

@@ -37,13 +37,47 @@ export interface WindowControls {
   subscribe(handler: (state: WindowState) => void): () => void;
 }
 
-export interface AppInfo { name: string; version: string; platform: string }
+export interface AppInfo {
+  name: string;
+  version: string;
+  platform: string;
+  updateSupported: boolean;
+}
+
+export type AppUpdatePhase =
+  | "unsupported"
+  | "idle"
+  | "checking"
+  | "available"
+  | "downloading"
+  | "downloaded"
+  | "not-available"
+  | "error";
+
+export interface AppUpdateState {
+  phase: AppUpdatePhase;
+  currentVersion: string;
+  availableVersion?: string;
+  percent?: number;
+  error?: string;
+}
+
+/** Narrow application update controls, implemented only by supported desktop hosts. */
+export interface AppUpdater {
+  getState(): Promise<AppUpdateState>;
+  checkForUpdates(): Promise<void>;
+  downloadUpdate(): Promise<void>;
+  installUpdate(): Promise<void>;
+  subscribe(handler: (state: AppUpdateState) => void): () => void;
+}
 
 /** Host operations exposed to the renderer through its host adapter. */
 export interface UiRuntime {
   /** Configurable user-visible application name, independent of package IDs. */
   appName: string;
   getAppInfo(): Promise<AppInfo>;
+  /** Present only in the Electron host on supported auto-update targets. */
+  updater?: AppUpdater;
   /** Missing window controls means the host does not render a title bar. */
   windowControls?: WindowControls;
   /** Missing platform means the host is a browser. */

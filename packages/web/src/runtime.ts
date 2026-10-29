@@ -14,6 +14,7 @@ export function createWebRuntime(): UiRuntime {
       name: appConfig.displayName,
       version: __APP_VERSION__,
       platform: "web",
+      updateSupported: false,
     }),
   };
 }

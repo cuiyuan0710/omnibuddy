@@ -1,6 +1,5 @@
 {
   "name": "omnibuddy",
-  "version": "0.1.0",
   "private": true,
   "type": "module",
   "packageManager": "bun@1.4.0",
@@ -12,6 +11,10 @@
   ],
   "scripts": {
     "build": "bun --workspaces --if-present run build",
+    "package:win": "bun --filter @omnibuddy/desktop package:win",
+    "package:mac:arm64": "bun --filter @omnibuddy/desktop package:mac:arm64",
+    "package:mac:x64": "bun --filter @omnibuddy/desktop package:mac:x64",
+    "package:linux": "bun --filter @omnibuddy/desktop package:linux",
     "dev:desktop": "bun --filter @omnibuddy/desktop dev",
     "dev:web": "bun --filter @omnibuddy/web dev",
     "typecheck": "bun --workspaces --if-present run typecheck"

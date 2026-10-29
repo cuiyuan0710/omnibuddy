@@ -13,6 +13,9 @@ const escapeHtml = (value: string) => value.replace(/[&<>"']/g, (character) => (
 }[character]!));
 
 export default defineConfig({
+  define: {
+    __APP_VERSION__: JSON.stringify(appConfig.version),
+  },
   root: fileURLToPath(new URL("./src/renderer/", import.meta.url)),
   base: "./",
   resolve: {

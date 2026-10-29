@@ -7,6 +7,7 @@ import "@omnibuddy/ui/styles.css";
 const runtime: UiRuntime = {
   appName: window.omniBuddy.appName,
   getAppInfo: () => window.omniBuddy.getAppInfo(),
+  updater: window.omniBuddy.updater,
   windowControls: window.omniBuddy.windowControls,
   platform: window.omniBuddy.platform,
   projects: window.omniBuddy.projects,

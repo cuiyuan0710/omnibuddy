@@ -1,0 +1,146 @@
+name: Release desktop
+
+on:
+  push:
+    tags: ["v*.*.*"]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.0
+      - run: bun run scripts/validate-release-tag.ts "$GITHUB_REF_NAME"
+
+  build-windows:
+    needs: validate
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.0
+      - run: bun install --frozen-lockfile
+      - run: bun --filter @omnibuddy/desktop package:win
+      - uses: actions/upload-artifact@v4
+        with:
+          name: desktop-windows
+          path: |
+            packages/desktop/release/out/*.exe
+            packages/desktop/release/out/*.blockmap
+            packages/desktop/release/out/latest.yml
+          if-no-files-found: error
+
+  build-macos:
+    needs: validate
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: arm64
+            runner: macos-latest
+          - arch: x64
+            runner: macos-15-intel
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.0
+      - run: bun install --frozen-lockfile
+      - run: bun --filter @omnibuddy/desktop package:mac:${{ matrix.arch }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: desktop-macos-${{ matrix.arch }}
+          path: |
+            packages/desktop/release/out/*.dmg
+            packages/desktop/release/out/*.zip
+          if-no-files-found: error
+
+  build-linux:
+    needs: validate
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.0
+      - run: bun install --frozen-lockfile
+      - run: bun --filter @omnibuddy/desktop package:linux
+      - uses: actions/upload-artifact@v4
+        with:
+          name: desktop-linux
+          path: |
+            packages/desktop/release/out/*.AppImage
+            packages/desktop/release/out/*.deb
+            packages/desktop/release/out/*.blockmap
+            packages/desktop/release/out/latest-linux.yml
+          if-no-files-found: error
+
+  publish:
+    needs: [validate, build-windows, build-macos, build-linux]
+    if: ${{ always() && needs.validate.result == 'success' && needs.build-windows.result == 'success' && needs.build-macos.result == 'success' && needs.build-linux.result == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+          pattern: desktop-*
+          merge-multiple: true
+      - name: Create draft, upload every artifact, then publish
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="${GITHUB_REF_NAME}"
+          for pattern in \
+            "OmniBuddy-*-win-x64.exe" \
+            "OmniBuddy-*-mac-arm64.dmg" \
+            "OmniBuddy-*-mac-arm64.zip" \
+            "OmniBuddy-*-mac-x64.dmg" \
+            "OmniBuddy-*-mac-x64.zip" \
+            "OmniBuddy-*-linux-x64.AppImage" \
+            "OmniBuddy-*-linux-x64.deb" \
+            "latest.yml" \
+            "latest-linux.yml"; do
+            compgen -G "release-assets/$pattern" >/dev/null || {
+              echo "Missing expected release artifact: $pattern" >&2
+              exit 1
+            }
+          done
+          RELEASE_DRAFT=$(gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json isDraft --jq '.isDraft' 2>/dev/null || true)
+          if [[ "$RELEASE_DRAFT" == "false" ]]; then
+            echo "Refusing to replace an already-published release for $TAG" >&2
+            exit 1
+          fi
+          if [[ -z "$RELEASE_DRAFT" ]]; then
+            gh release create "$TAG" \
+              --repo "$GITHUB_REPOSITORY" \
+              --draft \
+              --verify-tag \
+              --title "OmniBuddy $TAG" \
+              --generate-notes
+          fi
+          gh release upload "$TAG" release-assets/* --repo "$GITHUB_REPOSITORY" --clobber
+          RELEASE_ID=$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG" --jq .id)
+          gh api --method PATCH "repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID" -F draft=false >/dev/null

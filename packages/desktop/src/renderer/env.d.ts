@@ -1,4 +1,4 @@
-import type { AppInfo, HostPlatform, ProjectControls, WindowControls } from "@omnibuddy/contracts";
+import type { AppInfo, AppUpdater, HostPlatform, ProjectControls, WindowControls } from "@omnibuddy/contracts";
 
 declare global {
   interface Window {
@@ -6,6 +6,7 @@ declare global {
       appName: string;
       platform: HostPlatform;
       getAppInfo(): Promise<AppInfo>;
+      updater: AppUpdater;
       windowControls: WindowControls;
       projects: ProjectControls;
     };

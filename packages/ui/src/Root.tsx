@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { CSSProperties } from "react";
 
 import { AppInfoPanel } from "@/features/about/app-info-panel";
+import { UpdatePrompt } from "@/features/about/update-prompt";
 import { AppSidebar, type WorkspaceSection } from "@/components/app/app-sidebar";
 import { AppTitleBar } from "@/components/app/app-title-bar";
 import { AgentWorkspacePanel } from "@/features/agent/agent-workspace-panel";
@@ -38,6 +39,7 @@ export function Root({ runtime }: RootProps) {
   return (
     <div className="flex h-svh w-full flex-col overflow-hidden">
       <TooltipProvider delay={250}>
+        <UpdatePrompt updater={runtime.updater} appName={runtime.appName} />
         <SidebarProvider
           open={sidebarExpanded}
           onOpenChange={setSidebarExpanded}

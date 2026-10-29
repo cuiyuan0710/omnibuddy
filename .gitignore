@@ -2,7 +2,10 @@
 
 node_modules/
 dist/
+packages/desktop/release/
+packages/desktop/assets/omnibuddy.icns
 out/
 .vite/
 .bun/
+.tmp/
 .workbuddy/

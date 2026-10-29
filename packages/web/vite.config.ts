@@ -1,4 +1,3 @@
-import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 import tailwindcss from "@tailwindcss/vite";
@@ -14,15 +13,10 @@ const escapeHtml = (value: string) => value.replace(/[&<>"']/g, (character) => (
   "'": "&#39;",
 }[character]!));
 
-const { version } = JSON.parse(
-  readFileSync(new URL("./package.json", import.meta.url), "utf8"),
-) as { version: string };
-
 export default defineConfig({
   base: "./",
   define: {
-    // 版本号只在 package.json 维护，避免运行时另写一份。
-    __APP_VERSION__: JSON.stringify(version),
+    __APP_VERSION__: JSON.stringify(appConfig.version),
   },
   resolve: {
     // ui 包内部使用 `@/` 别名指向自己的源码。

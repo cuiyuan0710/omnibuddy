@@ -1,4 +1,9 @@
 export const APP_INFO_CHANNEL = "omnibuddy:app:get-info";
+export const UPDATE_STATE_CHANNEL = "omnibuddy:update:get-state";
+export const UPDATE_CHECK_CHANNEL = "omnibuddy:update:check";
+export const UPDATE_DOWNLOAD_CHANNEL = "omnibuddy:update:download";
+export const UPDATE_INSTALL_CHANNEL = "omnibuddy:update:install";
+export const UPDATE_STATE_CHANGED_CHANNEL = "omnibuddy:update:state-changed";
 export const WINDOW_STATE_CHANNEL = "omnibuddy:window:get-state";
 export const WINDOW_DEVTOOLS_AVAILABLE_CHANNEL = "omnibuddy:window:devtools-available";
 export const WINDOW_STATE_CHANGED_CHANNEL = "omnibuddy:window:state-changed";
