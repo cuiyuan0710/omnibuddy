@@ -2,7 +2,7 @@ import { mkdir, readFile, realpath, rename, stat, writeFile } from "node:fs/prom
 import { randomUUID } from "node:crypto";
 import { basename, dirname, isAbsolute } from "node:path";
 
-import type { WorkspaceProject } from "@job-buddy/client";
+import type { WorkspaceProject } from "@omnibuddy/contracts";
 
 /** Desktop-owned directory bookmarks used to organize local workspaces. */
 export class ProjectDirectories {

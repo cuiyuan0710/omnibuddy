@@ -1,0 +1,41 @@
+/**
+ * 输入框（prompt input）专用设计 token。
+ * 取值与桌面端 OmniBuddy 保持一致，浅色与深色各一套。
+ */
+
+@theme inline {
+  --color-prompt-input: var(--prompt-input);
+  --color-prompt-header: var(--prompt-header);
+  --color-prompt-input-border: var(--prompt-input-border);
+  --color-prompt-send: var(--prompt-send);
+  --color-prompt-send-hover: var(--prompt-send-hover);
+  --color-prompt-send-foreground: var(--prompt-send-foreground);
+  --shadow-prompt-input-box: var(--prompt-input-shadow);
+}
+
+:root {
+  /* 卡片圆角：输入框与上方头部条，配合 corner-squircle 使用。 */
+  --prompt-radius: 3rem;
+  --prompt-header-radius: 1.1rem;
+  --prompt-input: oklch(1 0 0);
+  --prompt-header: oklch(0.9401 0 0);
+  --prompt-input-border: oklch(0.93 0 0);
+  --prompt-input-border-w: 0.5px;
+  --prompt-input-shadow: 0 3px 8px -2px oklch(0.205 0 0 / 0.04),
+    0 10px 24px -8px oklch(0.205 0 0 / 0.045);
+  --prompt-send: oklch(0.185 0 0);
+  --prompt-send-hover: oklch(0.31 0 0);
+  --prompt-send-foreground: oklch(0.985 0 0);
+}
+
+.dark {
+  --prompt-input: oklch(0.3715 0 0);
+  --prompt-header: oklch(0.2931 0 0);
+  --prompt-input-border: transparent;
+  --prompt-input-border-w: 1px;
+  --prompt-input-shadow: 0 3px 8px -2px oklch(0 0 0 / 0.11),
+    0 10px 24px -8px oklch(0 0 0 / 0.16);
+  --prompt-send: oklch(0.94 0 0);
+  --prompt-send-hover: oklch(0.98 0 0);
+  --prompt-send-foreground: oklch(0.185 0 0);
+}

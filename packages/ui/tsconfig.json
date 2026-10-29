@@ -3,7 +3,7 @@
   "compilerOptions": {
     "paths": {
       "@/*": ["./src/*"],
-      "@job-buddy/client": ["../client/src/index.ts"]
+      "@omnibuddy/contracts": ["../contracts/src/index.ts"]
     },
     "noUnusedLocals": true,
     "noUnusedParameters": true

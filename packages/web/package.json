@@ -1,5 +1,5 @@
 {
-  "name": "@job-buddy/web",
+  "name": "@omnibuddy/web",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -10,8 +10,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@job-buddy/client": "workspace:*",
-    "@job-buddy/ui": "workspace:*",
+    "@omnibuddy/contracts": "workspace:*",
+    "@omnibuddy/ui": "workspace:*",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },

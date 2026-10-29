@@ -1,6 +1,6 @@
 import { contextBridge, ipcRenderer } from "electron";
-import type { AppInfo } from "@job-buddy/ui";
-import type { HostPlatform, WindowControls, WindowState } from "@job-buddy/client";
+import type { AppInfo, HostPlatform, WindowControls, WindowState } from "@omnibuddy/contracts";
+import { appConfig } from "../../../../app.config.js";
 import {
   APP_INFO_CHANNEL,
   WINDOW_STATE_CHANNEL, WINDOW_STATE_CHANGED_CHANNEL, WINDOW_MINIMIZE_CHANNEL,
@@ -28,7 +28,8 @@ const windowControls: WindowControls = {
     return () => { ipcRenderer.removeListener(WINDOW_STATE_CHANGED_CHANNEL, listener); };
   },
 };
-contextBridge.exposeInMainWorld("jobBuddy", {
+contextBridge.exposeInMainWorld("omniBuddy", {
+  appName: appConfig.displayName,
   /** 同步平台标识，供 UI 首帧决定窗口 chrome 布局，避免异步查询造成跳动。 */
   platform: process.platform as HostPlatform,
   getAppInfo: (): Promise<AppInfo> => ipcRenderer.invoke(APP_INFO_CHANNEL), windowControls,

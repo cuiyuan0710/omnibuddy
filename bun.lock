@@ -3,24 +3,24 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "job-buddy",
+      "name": "omnibuddy",
       "devDependencies": {
         "typescript": "^5.8.2",
       },
     },
-    "packages/client": {
-      "name": "@job-buddy/client",
+    "packages/contracts": {
+      "name": "@omnibuddy/contracts",
       "version": "0.1.0",
       "devDependencies": {
         "typescript": "^5.8.2",
       },
     },
     "packages/desktop": {
-      "name": "@job-buddy/desktop",
+      "name": "@omnibuddy/desktop",
       "version": "0.1.0",
       "dependencies": {
-        "@job-buddy/client": "workspace:*",
-        "@job-buddy/ui": "workspace:*",
+        "@omnibuddy/contracts": "workspace:*",
+        "@omnibuddy/ui": "workspace:*",
         "react": "^19.2.4",
         "react-dom": "^19.2.4",
       },
@@ -37,12 +37,12 @@
       },
     },
     "packages/ui": {
-      "name": "@job-buddy/ui",
+      "name": "@omnibuddy/ui",
       "version": "0.1.0",
       "dependencies": {
         "@base-ui/react": "^1.8.0",
         "@fontsource-variable/inter": "^5.3.0",
-        "@job-buddy/client": "workspace:*",
+        "@omnibuddy/contracts": "workspace:*",
         "@radix-ui/react-use-controllable-state": "^1.2.6",
         "@rive-app/react-webgl2": "^4.35.0",
         "@shadcn/react": "^0.3.1",
@@ -91,11 +91,11 @@
       },
     },
     "packages/web": {
-      "name": "@job-buddy/web",
+      "name": "@omnibuddy/web",
       "version": "0.1.0",
       "dependencies": {
-        "@job-buddy/client": "workspace:*",
-        "@job-buddy/ui": "workspace:*",
+        "@omnibuddy/contracts": "workspace:*",
+        "@omnibuddy/ui": "workspace:*",
         "react": "^19.2.4",
         "react-dom": "^19.2.4",
       },
@@ -212,14 +212,6 @@
 
     "@iconify/utils": ["@iconify/utils@3.1.7", "", { "dependencies": { "@antfu/install-pkg": "^2.0.1", "@iconify/types": "^2.0.0", "import-meta-resolve": "^4.2.0" } }, "sha512-JZHlwdID+dy+lTgbYC8NEC4zeugqeYsc6jewvzb4c58kHauJn+X7rNwQjxz5p2qSjqaEeQoLkCIQ9v/H4PK0/w=="],
 
-    "@job-buddy/client": ["@job-buddy/client@workspace:packages/client"],
-
-    "@job-buddy/desktop": ["@job-buddy/desktop@workspace:packages/desktop"],
-
-    "@job-buddy/ui": ["@job-buddy/ui@workspace:packages/ui"],
-
-    "@job-buddy/web": ["@job-buddy/web@workspace:packages/web"],
-
     "@jridgewell/gen-mapping": ["@jridgewell/gen-mapping@0.3.13", "", { "dependencies": { "@jridgewell/sourcemap-codec": "^1.5.0", "@jridgewell/trace-mapping": "^0.3.24" } }, "sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA=="],
 
     "@jridgewell/remapping": ["@jridgewell/remapping@2.3.5", "", { "dependencies": { "@jridgewell/gen-mapping": "^0.3.5", "@jridgewell/trace-mapping": "^0.3.24" } }, "sha512-LI9u/+laYG4Ds1TDKSJW2YPrIlcVYOwi2fUC6xB43lueCjgxV4lffOCZCtYFiH6TNOX+tQKXx97T4IKHbhyHEQ=="],
@@ -239,6 +231,14 @@
     "@nodelib/fs.stat": ["@nodelib/fs.stat@2.0.5", "", {}, "sha512-RkhPPp2zrqDAQA/2jNhnztcPAlv64XdhIp7a7454A5ovI7Bukxgt7MX7udwAu3zg1DcpPU0rz3VV1SeaqvY4+A=="],
 
     "@nodelib/fs.walk": ["@nodelib/fs.walk@1.2.8", "", { "dependencies": { "@nodelib/fs.scandir": "2.1.5", "fastq": "^1.6.0" } }, "sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg=="],
+
+    "@omnibuddy/contracts": ["@omnibuddy/contracts@workspace:packages/contracts"],
+
+    "@omnibuddy/desktop": ["@omnibuddy/desktop@workspace:packages/desktop"],
+
+    "@omnibuddy/ui": ["@omnibuddy/ui@workspace:packages/ui"],
+
+    "@omnibuddy/web": ["@omnibuddy/web@workspace:packages/web"],
 
     "@oxc-project/types": ["@oxc-project/types@0.151.0", "", {}, "sha512-J1yXrIlNDZVzE3ada310xeAw7nH8yCAyLPuUIsjKatFPmfn5bS1oW+cM+QsGOtVWd5nhSpbwZWx/rue+r5Z+PA=="],
 
@@ -1536,9 +1536,9 @@
 
     "@dotenvx/dotenvx/open": ["open@8.4.2", "", { "dependencies": { "define-lazy-prop": "^2.0.0", "is-docker": "^2.1.1", "is-wsl": "^2.2.0" } }, "sha512-7x81NCL719oNbsq/3mh+hVrAWmFuEYUqrq/Iw3kUzH8ReypT9QQ0BLoJS7/G9k6N81XjW4qHWtjWwe/9eLy1EQ=="],
 
-    "@job-buddy/desktop/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
-
     "@modelcontextprotocol/sdk/zod": ["zod@4.6.5", "", {}, "sha512-v5l/aFXZQeai4awLbOpSoHecE9UiMrnfx75tEXLjNonXVARxQ5mOeipTjROUchszUNCqnE+hqAMujRsRHsut2Q=="],
+
+    "@omnibuddy/desktop/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
 
     "@reduxjs/toolkit/immer": ["immer@11.1.18", "", {}, "sha512-EQyQtLiYW029lyoczMl/Hh4Xu7cDecSc58JRYpHyL4tIAu3eqd1yJzQX04d2BZHDkzFFvm6qJEJWOtfDSWAXbQ=="],
 

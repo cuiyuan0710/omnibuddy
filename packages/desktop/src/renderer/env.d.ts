@@ -1,9 +1,9 @@
-import type { AppInfo } from "@job-buddy/ui";
-import type { HostPlatform, ProjectControls, WindowControls } from "@job-buddy/client";
+import type { AppInfo, HostPlatform, ProjectControls, WindowControls } from "@omnibuddy/contracts";
 
 declare global {
   interface Window {
-    jobBuddy: {
+    omniBuddy: {
+      appName: string;
       platform: HostPlatform;
       getAppInfo(): Promise<AppInfo>;
       windowControls: WindowControls;

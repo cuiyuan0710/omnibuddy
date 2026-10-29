@@ -1,13 +1,12 @@
-import type { WindowChrome } from "./window-chrome.js";
+import type { HostPlatform, WindowChrome } from "./window-chrome.js";
 
 export {
   resolveTrafficLightPosition,
   resolveWindowChrome,
-  type HostPlatform,
   type WindowChrome,
 } from "./window-chrome.js";
+export type { HostPlatform } from "./window-chrome.js";
 export { windowChromeConfig } from "./window-chrome.config.js";
-
 /** Desktop persists user-selected project directories and display names. */
 export interface WorkspaceProject { id: string; name: string; path: string }
 export interface ProjectControls {
@@ -36,4 +35,19 @@ export interface WindowControls {
   resetZoom(): Promise<void>;
   close(): Promise<void>;
   subscribe(handler: (state: WindowState) => void): () => void;
+}
+
+export interface AppInfo { name: string; version: string; platform: string }
+
+/** Host operations exposed to the renderer through its host adapter. */
+export interface UiRuntime {
+  /** Configurable user-visible application name, independent of package IDs. */
+  appName: string;
+  getAppInfo(): Promise<AppInfo>;
+  /** Missing window controls means the host does not render a title bar. */
+  windowControls?: WindowControls;
+  /** Missing platform means the host is a browser. */
+  platform?: HostPlatform;
+  /** Local project-directory operations are available only in Desktop. */
+  projects?: ProjectControls;
 }

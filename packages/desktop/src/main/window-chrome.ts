@@ -4,7 +4,7 @@ import {
   resolveWindowChrome,
   type HostPlatform,
   type WindowChrome,
-} from "@job-buddy/client";
+} from "@omnibuddy/contracts";
 
 const hostPlatform = process.platform as HostPlatform;
 

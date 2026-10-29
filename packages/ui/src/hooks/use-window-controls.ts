@@ -4,7 +4,7 @@ import {
   type HostPlatform,
   type WindowControls,
   type WindowState,
-} from "@job-buddy/client";
+} from "@omnibuddy/contracts";
 
 /** Subscribe to Desktop's window state without making UI its owner. */
 export function useWindowControls(controls: WindowControls, platform?: HostPlatform) {

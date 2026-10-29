@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Settings } from "lucide-react";
-import { windowChromeConfig } from "@job-buddy/client";
+import { windowChromeConfig } from "@omnibuddy/contracts";
 
 import { cn } from "@/lib/utils";
-import type { UiRuntime } from "@/runtime/contracts";
+import type { UiRuntime } from "@omnibuddy/contracts";
 import type { WorkspaceSection } from "@/components/navigation/navigation-model";
 import { ConversationNavigation } from "@/components/navigation/conversation-navigation";
 import { PrimaryNavigation, RailNavItem } from "@/components/navigation/primary-navigation";
@@ -100,7 +100,7 @@ export function AppSidebar({
       >
         <SidebarHeader className="shrink-0 gap-1 pt-3">
           <div className="flex items-center gap-2 px-2 pb-1" aria-label="应用信息">
-            <span className="truncate text-base font-semibold">JobBuddy</span>
+            <span className="truncate text-base font-semibold">{runtime.appName}</span>
             {appVersion ? (
               <span className="truncate text-xs text-muted-foreground">v{appVersion}</span>
             ) : null}

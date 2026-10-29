@@ -40,11 +40,9 @@ import {
 import { cn } from "@/lib/utils";
 import type { ChatStatus, FileUIPart, SourceDocumentUIPart } from "ai";
 import {
-  CornerDownLeftIcon,
   ImageIcon,
   Monitor,
   PlusIcon,
-  SquareIcon,
   XIcon,
 } from "lucide-react";
 import { nanoid } from "nanoid";
@@ -63,6 +61,7 @@ import type {
 } from "react";
 
 import { HoverCard, HoverCardTrigger } from "./hover-card-delay";
+import { PromptSendGlyph, PromptStopGlyph } from "./prompt-input-glyphs";
 import {
   Children,
   createContext,
@@ -925,7 +924,9 @@ export const PromptInput = ({
         ref={formRef}
         {...props}
       >
-        <InputGroup className="overflow-hidden">{children}</InputGroup>
+        <InputGroup className="corner-squircle overflow-hidden rounded-[var(--prompt-radius)] border-[length:var(--prompt-input-border-w)] border-prompt-input-border! bg-prompt-input! shadow-prompt-input-box transition-none has-disabled:opacity-100 has-[[data-slot=input-group-control]:focus-visible]:ring-0">
+          {children}
+        </InputGroup>
       </form>
     </>
   );
@@ -1059,7 +1060,7 @@ export const PromptInputTextarea = ({
 
   return (
     <InputGroupTextarea
-      className={cn("field-sizing-content max-h-48 min-h-16", className)}
+      className={cn("field-sizing-content max-h-48 min-h-22 px-4 pt-4 pb-0.5 text-sm/[30px] transition-none", className)}
       name="message"
       onCompositionEnd={handleCompositionEnd}
       onCompositionStart={handleCompositionStart}
@@ -1099,7 +1100,7 @@ export const PromptInputFooter = ({
 }: PromptInputFooterProps) => (
   <InputGroupAddon
     align="block-end"
-    className={cn("justify-between gap-1", className)}
+    className={cn("justify-between gap-1 px-3 pt-2 pb-3", className)}
     {...props}
   />
 );
@@ -1140,7 +1141,7 @@ export const PromptInputButton = ({
 
   const button = (
     <InputGroupButton
-      className={cn(className)}
+      className={cn("transition-none", className)}
       size={newSize}
       type="button"
       variant={variant}
@@ -1225,12 +1226,12 @@ export const PromptInputSubmit = ({
 }: PromptInputSubmitProps) => {
   const isGenerating = status === "submitted" || status === "streaming";
 
-  let Icon = <CornerDownLeftIcon className="size-4" />;
+  let Icon = <PromptSendGlyph className="size-[15px]" />;
 
   if (status === "submitted") {
-    Icon = <Spinner />;
+    Icon = <Spinner className="size-4" />;
   } else if (status === "streaming") {
-    Icon = <SquareIcon className="size-4" />;
+    Icon = <PromptStopGlyph className="size-3" />;
   } else if (status === "error") {
     Icon = <XIcon className="size-4" />;
   }
@@ -1250,7 +1251,7 @@ export const PromptInputSubmit = ({
   return (
     <InputGroupButton
       aria-label={isGenerating ? "Stop" : "Submit"}
-      className={cn(className)}
+      className={cn("size-8 rounded-full bg-prompt-send text-prompt-send-foreground hover:bg-prompt-send-hover transition-none", className)}
       onClick={handleClick}
       size={size}
       type={isGenerating && onStop ? "button" : "submit"}
@@ -1278,7 +1279,7 @@ export const PromptInputSelectTrigger = ({
 }: PromptInputSelectTriggerProps) => (
   <SelectTrigger
     className={cn(
-      "border-none bg-transparent font-medium text-muted-foreground shadow-none transition-colors",
+      "border-none bg-transparent font-medium text-muted-foreground shadow-none transition-none",
       "hover:bg-accent hover:text-foreground aria-expanded:bg-accent aria-expanded:text-foreground",
       className
     )}

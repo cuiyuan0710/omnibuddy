@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { Root } from "@job-buddy/ui";
-import "@job-buddy/ui/styles.css";
+import { Root } from "@omnibuddy/ui";
+import "@omnibuddy/ui/styles.css";
 
 import { createWebRuntime } from "./runtime";
 

@@ -1,5 +1,5 @@
 import { Copy, Minus, Square, X } from "lucide-react";
-import type { HostPlatform, WindowControls } from "@job-buddy/client";
+import type { HostPlatform, WindowControls } from "@omnibuddy/contracts";
 
 import { useWindowControls } from "@/hooks/use-window-controls";
 import { cn } from "@/lib/utils";

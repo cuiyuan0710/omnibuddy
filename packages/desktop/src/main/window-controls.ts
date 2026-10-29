@@ -1,5 +1,5 @@
 import { BrowserWindow, ipcMain, type IpcMainInvokeEvent } from "electron";
-import type { WindowState } from "@job-buddy/client";
+import type { WindowState } from "@omnibuddy/contracts";
 
 import { readWindowChrome, subscribeWindowChrome } from "./window-chrome.js";
 import {

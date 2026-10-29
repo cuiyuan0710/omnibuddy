@@ -1,19 +1,19 @@
 {
-  "name": "job-buddy",
+  "name": "omnibuddy",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "packageManager": "bun@1.4.0",
   "workspaces": [
-    "packages/client",
+    "packages/contracts",
     "packages/ui",
     "packages/desktop",
     "packages/web"
   ],
   "scripts": {
     "build": "bun --workspaces --if-present run build",
-    "dev:desktop": "bun --filter @job-buddy/desktop dev",
-    "dev:web": "bun --filter @job-buddy/web dev",
+    "dev:desktop": "bun --filter @omnibuddy/desktop dev",
+    "dev:web": "bun --filter @omnibuddy/web dev",
     "typecheck": "bun --workspaces --if-present run typecheck"
   },
   "engines": {

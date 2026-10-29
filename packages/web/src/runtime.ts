@@ -1,4 +1,5 @@
-import type { UiRuntime } from "@job-buddy/ui";
+import type { UiRuntime } from "@omnibuddy/contracts";
+import { appConfig } from "../../../app.config.js";
 
 /**
  * 浏览器宿主的运行时适配。
@@ -8,8 +9,9 @@ import type { UiRuntime } from "@job-buddy/ui";
  */
 export function createWebRuntime(): UiRuntime {
   return {
+    appName: appConfig.displayName,
     getAppInfo: async () => ({
-      name: "JobBuddy",
+      name: appConfig.displayName,
       version: __APP_VERSION__,
       platform: "web",
     }),

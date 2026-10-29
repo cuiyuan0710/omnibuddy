@@ -13,7 +13,7 @@ import {
 } from "./components/ui/sidebar";
 import { TooltipProvider } from "./components/ui/tooltip";
 import { useTheme } from "@/hooks/use-theme";
-import type { UiRuntime } from "@/runtime/contracts";
+import type { UiRuntime } from "@omnibuddy/contracts";
 import { useShellStore } from "@/stores/shell-store";
 
 interface RootProps {
@@ -56,7 +56,7 @@ export function Root({ runtime }: RootProps) {
             <SidebarInset className="min-w-0 overflow-hidden rounded-tl-none border-t border-sidebar-header-border">
               <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto p-4">
                 <div className="mx-auto w-full max-w-4xl">
-                  {activeSection === "agent" && <AgentWorkspacePanel />}
+                  {activeSection === "agent" && <AgentWorkspacePanel appName={runtime.appName} />}
                   {activeSection === "capabilities" && <CapabilityCenterPanel />}
                   {activeSection === "ui-showcase" && <UiShowcasePanel theme={theme} />}
                   {activeSection === "about" && <AppInfoPanel runtime={runtime} />}

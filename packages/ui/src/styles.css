@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
+@import "./styles/prompt.css";
 
 @custom-variant dark (&:is(.dark *));
 @source ".";
@@ -55,6 +56,14 @@
   --radius-1rem: 1rem;
   --radius-1_5rem: 1.5rem;
   --radius-2rem: 2rem;
+}
+
+/**
+ * iOS 风格连续圆角：在 border-radius 基础上把曲率换成 squircle。
+ * 不支持的浏览器会忽略该声明，自然回退到普通圆角。
+ */
+@utility corner-squircle {
+  corner-shape: squircle;
 }
 
 :root {

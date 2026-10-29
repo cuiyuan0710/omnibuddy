@@ -1,4 +1,4 @@
-import type { WindowControls } from "@job-buddy/client";
+import type { WindowControls } from "@omnibuddy/contracts";
 
 import { ThemeMenuItems } from "./theme-menu-items";
 import {

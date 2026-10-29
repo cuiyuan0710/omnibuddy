@@ -1,13 +1,15 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { Root, type UiRuntime } from "@job-buddy/ui";
-import "@job-buddy/ui/styles.css";
+import { Root } from "@omnibuddy/ui";
+import type { UiRuntime } from "@omnibuddy/contracts";
+import "@omnibuddy/ui/styles.css";
 
 const runtime: UiRuntime = {
-  getAppInfo: () => window.jobBuddy.getAppInfo(),
-  windowControls: window.jobBuddy.windowControls,
-  platform: window.jobBuddy.platform,
-  projects: window.jobBuddy.projects,
+  appName: window.omniBuddy.appName,
+  getAppInfo: () => window.omniBuddy.getAppInfo(),
+  windowControls: window.omniBuddy.windowControls,
+  platform: window.omniBuddy.platform,
+  projects: window.omniBuddy.projects,
 };
 
 const rootElement = document.getElementById("root");
