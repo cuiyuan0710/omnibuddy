@@ -5,7 +5,7 @@
  */
 export const appConfig = {
   displayName: "OmniBuddy",
-  version: "0.1.2",
+  version: "0.1.3",
   appId: "com.omnibuddy.desktop",
   homepage: "https://github.com/cuiyuan0710/omnibuddy",
   maintainer: {

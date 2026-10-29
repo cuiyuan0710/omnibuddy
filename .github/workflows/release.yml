@@ -128,19 +128,49 @@ jobs:
               exit 1
             }
           done
-          RELEASE_DRAFT=$(gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json isDraft --jq '.isDraft' 2>/dev/null || true)
-          if [[ "$RELEASE_DRAFT" == "false" ]]; then
+          PUBLISHED_RELEASE_ID=$(gh api "repos/$GITHUB_REPOSITORY/releases?per_page=100" \
+            --paginate \
+            --jq ".[] | select(.tag_name == \"$TAG\" and .draft == false) | .id" \
+            | sed -n '1p')
+          if [[ -n "$PUBLISHED_RELEASE_ID" ]]; then
             echo "Refusing to replace an already-published release for $TAG" >&2
             exit 1
           fi
-          if [[ -z "$RELEASE_DRAFT" ]]; then
-            gh release create "$TAG" \
-              --repo "$GITHUB_REPOSITORY" \
-              --draft \
-              --verify-tag \
-              --title "OmniBuddy $TAG" \
-              --generate-notes
+
+          RELEASE_ID=$(gh api "repos/$GITHUB_REPOSITORY/releases?per_page=100" \
+            --paginate \
+            --jq ".[] | select(.draft == true and (.tag_name == \"$TAG\" or .name == \"OmniBuddy $TAG\")) | .id" \
+            | sed -n '1p')
+          if [[ -z "$RELEASE_ID" ]]; then
+            RELEASE_ID=$(gh api --method POST "repos/$GITHUB_REPOSITORY/releases" \
+              -f "tag_name=$TAG" \
+              -f "target_commitish=$GITHUB_SHA" \
+              -f "name=OmniBuddy $TAG" \
+              -F draft=true \
+              -F generate_release_notes=true \
+              --jq '.id')
           fi
-          gh release upload "$TAG" release-assets/* --repo "$GITHUB_REPOSITORY" --clobber
-          RELEASE_ID=$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG" --jq .id)
-          gh api --method PATCH "repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID" -F draft=false >/dev/null
+
+          for file in release-assets/*; do
+            asset_name="${file##*/}"
+            existing_asset_ids=$(gh api "repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID/assets?per_page=100" \
+              --paginate \
+              --jq ".[] | select(.name == \"$asset_name\") | .id")
+            while IFS= read -r asset_id; do
+              [[ -z "$asset_id" ]] || gh api --method DELETE \
+                "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id" >/dev/null
+            done <<< "$existing_asset_ids"
+
+            curl --fail-with-body --silent --show-error --location \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              -H "Content-Type: application/octet-stream" \
+              --data-binary "@$file" \
+              "https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID/assets?name=$asset_name" \
+              >/dev/null
+          done
+
+          gh api --method PATCH "repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID" \
+            -F draft=false \
+            --jq '.html_url'
