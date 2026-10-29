@@ -119,8 +119,8 @@ jobs:
             "OmniBuddy-*-mac-arm64.zip" \
             "OmniBuddy-*-mac-x64.dmg" \
             "OmniBuddy-*-mac-x64.zip" \
-            "OmniBuddy-*-linux-x64.AppImage" \
-            "OmniBuddy-*-linux-x64.deb" \
+            "OmniBuddy-*-linux-x86_64.AppImage" \
+            "OmniBuddy-*-linux-amd64.deb" \
             "latest.yml" \
             "latest-linux.yml"; do
             compgen -G "release-assets/$pattern" >/dev/null || {
