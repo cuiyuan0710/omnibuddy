@@ -23,6 +23,13 @@ interface CodexPackageManifest {
   entrypoint: string;
 }
 
+interface OmniBuddyCliMarker {
+  name: string;
+  version: string;
+  platform: string;
+  arch: string;
+}
+
 const repositoryRoot = resolve(import.meta.dir, "..");
 const runtimeParent = join(repositoryRoot, "packages", "desktop", "runtime", "omni-buddy-cli");
 const contractDestination = join(repositoryRoot, "packages", "contracts", "src", "generated", "omni-buddy-cli");
@@ -136,7 +143,12 @@ async function findCodexManifest(vendorDirectory: string): Promise<string> {
   throw new Error(`Could not find codex-package.json under ${vendorDirectory}`);
 }
 
-async function isRuntimeReady(runtimeDirectory: string, version: string): Promise<boolean> {
+async function isRuntimeReady(
+  runtimeDirectory: string,
+  version: string,
+  platform: string,
+  arch: string,
+): Promise<boolean> {
   const markerPath = join(runtimeDirectory, "omni-buddy-cli.json");
   const manifestPath = await findCodexManifestIfPresent(join(runtimeDirectory, "vendor"));
   if (!existsSync(markerPath) || !manifestPath) return false;
@@ -144,10 +156,25 @@ async function isRuntimeReady(runtimeDirectory: string, version: string): Promis
     readFile(markerPath, "utf8"),
     readFile(manifestPath, "utf8"),
   ]);
-  if (!markerText.includes(`"version": "${version}"`)) return false;
-  const manifest = JSON.parse(manifestText) as CodexPackageManifest;
-  if (manifest.version !== version || manifest.entrypoint !== "bin/codex.exe") return false;
-  return existsSync(join(dirname(manifestPath), manifest.entrypoint));
+  let marker: OmniBuddyCliMarker;
+  let manifest: CodexPackageManifest;
+  try {
+    marker = JSON.parse(markerText) as OmniBuddyCliMarker;
+    manifest = JSON.parse(manifestText) as CodexPackageManifest;
+  } catch {
+    return false;
+  }
+  if (marker.name !== "omni-buddy-cli" || marker.version !== version) return false;
+  if (marker.platform !== platform || marker.arch !== arch) return false;
+  if (manifest.version !== version || !manifest.entrypoint) return false;
+
+  // Unix packages expose `bin/codex`, while Windows exposes `bin/codex.exe`.
+  // Trust the upstream manifest instead of hard-coding the Windows entrypoint.
+  const entrypoint = manifest.entrypoint.replaceAll("\\", "/");
+  if (!entrypoint.startsWith("bin/") || entrypoint.includes("/../") || entrypoint.endsWith("/..")) {
+    return false;
+  }
+  return existsSync(join(dirname(manifestPath), ...entrypoint.split("/")));
 }
 
 async function findCodexManifestIfPresent(vendorDirectory: string): Promise<string | null> {
@@ -208,7 +235,7 @@ async function main(): Promise<void> {
 
   const runtimeDestination = join(runtimeParent, `${platform}-${arch}`);
   const contractMarkerPath = join(contractDestination, "VERSION.md");
-  if (existsSync(contractMarkerPath) && await isRuntimeReady(runtimeDestination, version)) {
+  if (existsSync(contractMarkerPath) && await isRuntimeReady(runtimeDestination, version, platform, arch)) {
     const contractMarker = await readFile(contractMarkerPath, "utf8");
     if (contractMarker.includes(`OmniBuddy CLI ${version}`)) {
       if (options.useLatest) await updatePinnedVersion(version);

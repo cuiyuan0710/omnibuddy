@@ -1,9 +1,19 @@
 import { appConfig } from "../../app.config.ts";
 import electronPackage from "./node_modules/electron/package.json" with { type: "json" };
+import { existsSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const desktopRoot = dirname(fileURLToPath(import.meta.url));
+const runtimeTarget = `${process.platform}-${process.arch}`;
+const runtimeDirectory = resolve(desktopRoot, "runtime", "omni-buddy-cli", runtimeTarget);
+
+if (!existsSync(runtimeDirectory)) {
+  throw new Error(
+    `OmniBuddy CLI runtime is missing for ${runtimeTarget}: ${runtimeDirectory}. ` +
+      "Run the platform-specific prepare:omni-buddy-cli step before packaging.",
+  );
+}
 
 /** Electron packaging metadata is generated from the root product config. */
 export default {
@@ -23,7 +33,7 @@ export default {
   files: ["dist/**/*", "package.json", "!node_modules/**/*"],
   extraResources: [
     {
-      from: resolve(desktopRoot, "runtime", "omni-buddy-cli", `${process.platform}-${process.arch}`),
+      from: runtimeDirectory,
       to: "omni-buddy-cli",
     },
   ],
