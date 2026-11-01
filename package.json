@@ -15,6 +15,8 @@
     "package:mac:arm64": "bun --filter @omnibuddy/desktop package:mac:arm64",
     "package:mac:x64": "bun --filter @omnibuddy/desktop package:mac:x64",
     "package:linux": "bun --filter @omnibuddy/desktop package:linux",
+    "sync:omni-buddy-cli": "bun run scripts/sync-omni-buddy-cli.ts --latest",
+    "prepare:omni-buddy-cli": "bun run scripts/sync-omni-buddy-cli.ts",
     "dev:desktop": "bun --filter @omnibuddy/desktop dev",
     "dev:web": "bun --filter @omnibuddy/web dev",
     "typecheck": "bun --workspaces --if-present run typecheck"

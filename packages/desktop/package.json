@@ -4,17 +4,18 @@
   "type": "module",
   "main": "./dist/main/index.cjs",
   "scripts": {
-    "dev": "bun run build && electron .",
+    "prepare:omni-buddy-cli": "bun run ../../scripts/sync-omni-buddy-cli.ts",
+    "dev": "bun run prepare:omni-buddy-cli && bun run build && electron .",
     "build": "bun run clean:build && bun run build:main && bun run build:preload && bun run build:renderer",
     "clean:build": "bun run scripts/clean-build.ts",
     "build:main": "bun build ./src/main/index.ts --target=node --format=cjs --external electron --outfile ./dist/main/index.cjs",
     "build:preload": "bun build ./src/preload/index.ts --target=node --format=cjs --external electron --outfile ./dist/preload/index.cjs",
     "build:renderer": "vite build",
     "stage:package": "bun run scripts/stage-package.ts",
-    "package:win": "bun run build && bun run stage:package && electron-builder --config electron-builder.config.js --win --x64 --publish never",
-    "package:mac:arm64": "bun run build && bun run stage:package && electron-builder --config electron-builder.config.js --mac --arm64 --publish never",
-    "package:mac:x64": "bun run build && bun run stage:package && electron-builder --config electron-builder.config.js --mac --x64 --publish never",
-    "package:linux": "bun run build && bun run stage:package && electron-builder --config electron-builder.config.js --linux --x64 --publish never",
+    "package:win": "bun run prepare:omni-buddy-cli && bun run build && bun run stage:package && electron-builder --config electron-builder.config.js --win --x64 --publish never",
+    "package:mac:arm64": "bun run prepare:omni-buddy-cli && bun run build && bun run stage:package && electron-builder --config electron-builder.config.js --mac --arm64 --publish never",
+    "package:mac:x64": "bun run prepare:omni-buddy-cli && bun run build && bun run stage:package && electron-builder --config electron-builder.config.js --mac --x64 --publish never",
+    "package:linux": "bun run prepare:omni-buddy-cli && bun run build && bun run stage:package && electron-builder --config electron-builder.config.js --linux --x64 --publish never",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

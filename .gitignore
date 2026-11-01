@@ -3,6 +3,7 @@
 node_modules/
 dist/
 packages/desktop/release/
+packages/desktop/runtime/omni-buddy-cli/
 packages/desktop/assets/omnibuddy.icns
 out/
 .vite/

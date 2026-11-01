@@ -6,6 +6,8 @@
 export const appConfig = {
   displayName: "OmniBuddy",
   version: "0.1.3",
+  /** Exact upstream runtime version used by the OmniBuddy CLI bundle. */
+  omniBuddyCliVersion: "0.166.0",
   appId: "com.omnibuddy.desktop",
   homepage: "https://github.com/cuiyuan0710/omnibuddy",
   maintainer: {

@@ -21,6 +21,12 @@ export default {
   // Main, preload and renderer are bundled at build time; shipping workspace
   // node_modules would duplicate the entire UI dependency graph in app.asar.
   files: ["dist/**/*", "package.json", "!node_modules/**/*"],
+  extraResources: [
+    {
+      from: resolve(desktopRoot, "runtime", "omni-buddy-cli", `${process.platform}-${process.arch}`),
+      to: "omni-buddy-cli",
+    },
+  ],
   asar: true,
   npmRebuild: false,
   publish: [

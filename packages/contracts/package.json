@@ -10,6 +10,10 @@
     ".": {
       "types": "./src/index.ts",
       "import": "./src/index.ts"
+    },
+    "./omni-buddy-cli": {
+      "types": "./src/generated/omni-buddy-cli/index.ts",
+      "import": "./src/generated/omni-buddy-cli/index.ts"
     }
   },
   "devDependencies": {
