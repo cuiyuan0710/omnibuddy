@@ -66,22 +66,22 @@ export function AppTitleBar({ controls, platform }: AppTitleBarProps) {
               <SidebarTrigger
                 size="icon-sm"
                 aria-label="切换侧栏"
-                className="size-7 rounded-lg text-muted-foreground transition-colors duration-150 hover:text-foreground focus-visible:text-foreground"
+                className="size-7 rounded-lg text-muted-foreground transition-none hover:text-foreground focus-visible:text-foreground"
               />
             }
           />
           <TooltipContent side="bottom">切换侧栏</TooltipContent>
         </Tooltip>
-        <Button type="button" variant="ghost" className="h-6 rounded-lg px-2.5 text-[13px] text-muted-foreground transition-colors duration-150 hover:text-foreground focus-visible:text-foreground">
+        <Button type="button" variant="ghost" className="h-6 rounded-lg px-2.5 text-[13px] text-muted-foreground transition-none hover:text-foreground focus-visible:text-foreground">
           关于
         </Button>
-        <Button type="button" variant="ghost" className="h-6 rounded-lg px-2.5 text-[13px] text-muted-foreground transition-colors duration-150 hover:text-foreground focus-visible:text-foreground">
+        <Button type="button" variant="ghost" className="h-6 rounded-lg px-2.5 text-[13px] text-muted-foreground transition-none hover:text-foreground focus-visible:text-foreground">
           编辑
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
-              <Button type="button" variant="ghost" className="h-6 rounded-lg px-2.5 text-[13px] text-muted-foreground transition-colors duration-150 hover:text-foreground focus-visible:text-foreground" />
+              <Button type="button" variant="ghost" className="h-6 rounded-lg px-2.5 text-[13px] text-muted-foreground transition-none hover:text-foreground focus-visible:text-foreground" />
             }
           >
             视图
@@ -101,7 +101,7 @@ export function AppTitleBar({ controls, platform }: AppTitleBarProps) {
             type="button"
             variant="ghost"
             size="icon"
-            className="h-7.5 w-[46px] rounded-none text-muted-foreground transition-colors duration-150 hover:bg-muted/35 hover:text-foreground active:bg-muted/50 focus-visible:text-foreground dark:hover:bg-muted/35"
+            className="h-7.5 w-[46px] rounded-none text-muted-foreground transition-none hover:bg-muted/35 hover:text-foreground active:bg-muted/50 focus-visible:text-foreground dark:hover:bg-muted/35"
             aria-label="最小化"
             title="最小化"
             onClick={minimize}
@@ -112,7 +112,7 @@ export function AppTitleBar({ controls, platform }: AppTitleBarProps) {
             type="button"
             variant="ghost"
             size="icon"
-            className="h-7.5 w-[46px] rounded-none text-muted-foreground transition-colors duration-150 hover:bg-muted/35 hover:text-foreground active:bg-muted/50 focus-visible:text-foreground dark:hover:bg-muted/35"
+            className="h-7.5 w-[46px] rounded-none text-muted-foreground transition-none hover:bg-muted/35 hover:text-foreground active:bg-muted/50 focus-visible:text-foreground dark:hover:bg-muted/35"
             aria-label={maximized ? "还原" : "最大化"}
             title={maximized ? "还原" : "最大化"}
             onClick={toggleMaximize}
@@ -125,7 +125,7 @@ export function AppTitleBar({ controls, platform }: AppTitleBarProps) {
             type="button"
             variant="ghost"
             size="icon"
-            className="h-7.5 w-[46px] rounded-none text-muted-foreground transition-colors duration-150 hover:bg-red-600 hover:text-white active:bg-red-700 focus-visible:text-foreground dark:hover:bg-red-600 dark:hover:text-white dark:active:bg-red-700"
+            className="h-7.5 w-[46px] rounded-none text-muted-foreground transition-none hover:bg-red-600 hover:text-white active:bg-red-700 focus-visible:text-foreground dark:hover:bg-red-600 dark:hover:text-white dark:active:bg-red-700"
             aria-label="关闭"
             title="关闭"
             onClick={close}

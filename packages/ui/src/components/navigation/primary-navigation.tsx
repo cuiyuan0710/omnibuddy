@@ -46,7 +46,7 @@ export function PrimaryNavigation() {
   const { title, icon } = HOME_NAV_ITEM;
 
   return (
-    <SidebarContent className="gap-0 py-2" role="navigation" aria-label="主导航">
+    <SidebarContent className="gap-0 py-1" role="navigation" aria-label="主导航">
       <SidebarGroup className="p-1">
         <SidebarGroupContent>
           <SidebarMenu>

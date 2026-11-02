@@ -94,7 +94,7 @@ export function AppSidebar({
       <Sidebar
         collapsible="none"
         className={cn(
-          "min-w-0 flex-1 overflow-hidden border-r border-t border-r-sidebar-border border-t-sidebar-header-border pt-2",
+          "min-w-0 flex-1 overflow-hidden border-r border-t border-r-sidebar-border border-t-sidebar-header-border pt-1",
           state === "collapsed" && !isMobile && "hidden",
         )}
       >
